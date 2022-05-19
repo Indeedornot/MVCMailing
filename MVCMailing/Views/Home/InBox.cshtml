@@ -14,10 +14,10 @@
     @for (int i = 0; i < @Model.Count; i++)
     {
         <tr class="text-wrap">
-            <td>@Model[i].Sender</td>
+            <td>@Model[i].SenderEmail @Model[i].SenderName</td>
             <td>@Model[i].Date</td>
             <td>@Model[i].Subject</td>
-            <td>@Model[i].Snippet</td>
+            <td>@Model[i].Body</td>
         </tr>
     }
 </table>

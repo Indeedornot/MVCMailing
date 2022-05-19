@@ -4,6 +4,7 @@ using Google.Apis.Auth.OAuth2;
 using Google.Apis.Gmail.v1;
 using Google.Apis.Gmail.v1.Data;
 using Google.Apis.Services;
+using MailKit;
 using Microsoft.AspNetCore.Mvc;
 using MVCMailing.Models;
 using MVCMailing.Services;
@@ -40,27 +41,14 @@ public class HomeController : Controller
         return View();
     }
     
-    [GoogleScopedAuthorize(GmailService.ScopeConstants.MailGoogleCom)]
+    
     public async Task<IActionResult> InBox()
     {
-        var credential = await _auth.GetCredentialAsync();
-        var messages = await _emailService.RetrieveEmails(credential);
+        if (!_emailService.loginCred.IsValid) return Home.Login().Redirect(this); 
+        var messages = await _emailService.RetrieveEmails();
         return View(messages);
     }
-
-    public IActionResult Send()
-    {
-        return View();
-    }
-
-    public async Task<IActionResult> SendPost(SendModel? sendModel)
-    {
-        if (sendModel is null) return Problem();
-        var credential = await _auth.GetCredentialAsync();
-        _ = _emailService.SendEmail(credential, sendModel);
-        return Home.Index().Redirect(this);
-    }
-
+    
     [HttpGet]
     public IActionResult Login()
     {
@@ -68,8 +56,25 @@ public class HomeController : Controller
     }
 
     [HttpPost]
-    public IActionResult Login()
+    public IActionResult LoginPost(EmailLoginVm emailLoginVm)
     {
-        
+        _emailService.loginCred = emailLoginVm;
+        return Home.Index().Redirect(this);
+    }
+
+    [HttpGet]
+    public IActionResult Send()
+    {
+        if (!_emailService.loginCred.IsValid) return Home.Login().Redirect(this);
+        return View();
+    }
+
+    [HttpPost]
+    public IActionResult SendPost(EmailMessageVm message)
+    {
+        if (!_emailService.loginCred.IsValid) return Home.Login().Redirect(this);
+        if (!message.IsValidSend) return Home.Send().Redirect(this);
+        _emailService.SendEmail(message);
+        return Home.Index().Redirect(this);
     }
 }

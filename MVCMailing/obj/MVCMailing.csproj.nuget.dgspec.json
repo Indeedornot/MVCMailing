@@ -52,6 +52,10 @@
               "target": "Package",
               "version": "[1.57.0.2622, )"
             },
+            "MailKit": {
+              "target": "Package",
+              "version": "[3.2.0, )"
+            },
             "SafeRouting": {
               "target": "Package",
               "version": "[1.2.0, )"

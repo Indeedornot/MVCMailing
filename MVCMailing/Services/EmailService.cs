@@ -16,73 +16,129 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Google.Apis.Auth.AspNetCore3;
+using MailKit;
+using MailKit.Net.Imap;
+using MailKit.Net.Smtp;
+using MailKit.Search;
+using MailKit.Security;
 using Microsoft.IdentityModel.Tokens;
+using MimeKit;
+using MimeKit.Text;
 
 
 namespace MVCMailing.Services;
 
 public class EmailService : IEmailService
 {
+    private readonly IGoogleAuthProvider _auth;
     public EmailLoginVm loginCred { get; set; } = new();
-    public async Task<List<EmailMessageVm>> RetrieveEmails(GoogleCredential credential)
+
+    public EmailService(IGoogleAuthProvider auth)
     {
-        // Create Gmail API service.
-        var service = new GmailService(new BaseClientService.Initializer
-        {
-            HttpClientInitializer = credential,
-        });
-
-        var idsRequest = service.Users.Messages.List("me");
-        var idList = (await idsRequest.ExecuteAsync()).Messages;
-
-        List<EmailMessageVm> messages = new();
-        for (int i = idList.Count - 1; i >= 0; i--)
-        {
-            var messageRequest = service.Users.Messages.Get("me", idList[i].Id);
-            var message = (await messageRequest.ExecuteAsync());
-            messages.Add(new EmailMessageVm(message));
-        }
-
-        return messages;
+        _auth = auth;
     }
 
-    public async Task<bool> SendEmail(GoogleCredential  credential, SendModel? sendModel)
-    {
-        if (sendModel is null
-            || string.IsNullOrEmpty(sendModel.To)
-            || string.IsNullOrEmpty(sendModel.Body)
-            || string.IsNullOrEmpty(sendModel.Subject))
-        {
-            return false;
-        }
-        
-        // Create Gmail API service.
-        var service = new GmailService(new BaseClientService.Initializer
-        {
-            HttpClientInitializer = credential,
-        });
+    // public async Task<List<EmailMessageVm>> RetrieveEmails(GoogleCredential credential)
+    // {
+    //     // Create Gmail API service.
+    //     var service = new GmailService(new BaseClientService.Initializer
+    //     {
+    //         HttpClientInitializer = credential,
+    //     });
+    //
+    //     var idsRequest = service.Users.Messages.List("me");
+    //     var idList = (await idsRequest.ExecuteAsync()).Messages;
+    //
+    //     List<EmailMessageVm> messages = new();
+    //     for (int i = idList.Count - 1; i >= 0; i--)
+    //     {
+    //         var messageRequest = service.Users.Messages.Get("me", idList[i].Id);
+    //         var message = (await messageRequest.ExecuteAsync());
+    //         messages.Add(new EmailMessageVm(message));
+    //     }
+    //
+    //     return messages;
+    // }
 
-        var emailResponse = service.Users.GetProfile("me");
-        string? email = (await emailResponse.ExecuteAsync()).EmailAddress;
-        if (string.IsNullOrEmpty(email))
-        {
-            return false;
-        }
-        
-        string message = $"To: {sendModel.To}\r\nSubject: {sendModel.Subject}\r\nContent-Type: text/html;charset=utf-8\r\n\r\n{sendModel.Body}";
-        var newMsg = new Message { Raw = Base64UrlEncode(message) };
-        var response = await service.Users.Messages.Send(newMsg, "me").ExecuteAsync();
-        
-        return response != null;
-    }
-    
-    private static string Base64UrlEncode(string input)
+
+    public async Task<List<EmailMessageVm>> RetrieveEmails(int maxCount = 10)
     {
-        byte[] inputBytes = Encoding.UTF8.GetBytes(input);
-        // Special "url-safe" base64 encode.
-        return Convert.ToBase64String(inputBytes)
-            .Replace('+', '-')
-            .Replace('/', '_')
-            .Replace("=", "");
+        using var emailClient = new ImapClient();
+
+        if (loginCred.Google)
+        {
+            var oauth2 = new SaslMechanismOAuth2(loginCred.Email, await GetGmailToken());
+            await emailClient.ConnectAsync("imap.gmail.com", 993, SecureSocketOptions.SslOnConnect);
+            await emailClient.AuthenticateAsync(oauth2);
+        }
+        else //TODO ADD GET SERVER FROM EMAIL
+        {
+            await emailClient.ConnectAsync(loginCred.ImapServer, 993, SecureSocketOptions.SslOnConnect);
+            await emailClient.AuthenticateAsync(loginCred.Email, loginCred.Password);
+        }
+
+        await emailClient.Inbox.OpenAsync(FolderAccess.ReadOnly);
+
+        //var itemCollection = emailClient.Inbox.Fetch(uids, MessageSummaryItems.UniqueId | MessageSummaryItems.BodyStructure);
+
+
+        List<EmailMessageVm> emails = new();
+        for (int i = emailClient.Inbox.Count - 1; i >= emailClient.Inbox.Count - 1 - maxCount; i--)
+        {
+            var message = await emailClient.Inbox.GetMessageAsync(i);
+            var emailMessage =
+                new EmailMessageVm
+                {
+                    Body = !string.IsNullOrEmpty(message.TextBody) ? string.Empty : message.TextBody,
+                    Subject = message.Subject,
+                    SenderName = message.From.Aggregate(string.Empty, (current, sender) => current + sender.Name),
+                    SenderEmail = string.Join("\n", message.From),
+                    Date = message.Date.ToString()
+                };
+            emails.Add(emailMessage);
+        }
+
+        await emailClient.DisconnectAsync(true);
+        return emails;
+    }
+
+    [GoogleScopedAuthorize(GmailService.ScopeConstants.MailGoogleCom)]
+    public async Task<string> GetGmailToken()
+    {
+        var googleCred = await _auth.GetCredentialAsync();
+        return await googleCred.UnderlyingCredential.GetAccessTokenForRequestAsync();
+    }
+
+    public async Task<bool> SendEmail(EmailMessageVm message)
+    {
+        var nameTo = message.To.Split("@")[0];
+        var nameFrom = message.To.Split("@")[0];
+        var email = new MimeMessage
+        {
+            Subject = message.Subject,
+            Body = new TextPart("plain"){ Text = message.Body },
+            Sender = new MailboxAddress(nameFrom, loginCred.Email)
+        };
+        email.To.Add(new MailboxAddress(nameTo, message.To));
+        
+        // send email
+        using var emailClient = new SmtpClient();
+
+        if (loginCred.Google)
+        {
+            var oauth2 = new SaslMechanismOAuth2(loginCred.Email, await GetGmailToken());
+            await emailClient.ConnectAsync ("smtp.gmail.com", 465, SecureSocketOptions.SslOnConnect);
+            await emailClient.AuthenticateAsync(oauth2);
+        }
+        else //TODO ADD GET SERVER FROM EMAIL AND CORRECT PORT
+        {
+            await emailClient.ConnectAsync(loginCred.ImapServer, 465, SecureSocketOptions.SslOnConnect);
+            await emailClient.AuthenticateAsync(loginCred.Email, loginCred.Password);
+        }
+
+        string? response = await emailClient.SendAsync(email);
+        await emailClient.DisconnectAsync(true);
+        return true;
     }
 }

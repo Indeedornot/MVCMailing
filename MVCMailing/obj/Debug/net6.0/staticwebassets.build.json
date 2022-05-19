@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "GAfyEDBT15JJ/6IQVOtK39r2VQJG9VICh/PwWFU1hS4=",
+  "Hash": "zxFhqaQjztR/UC676sOkryYiN0idk7PgNrE/eFanIG8=",
   "Source": "MVCMailing",
   "BasePath": "_content/MVCMailing",
   "Mode": "Default",
@@ -100,6 +100,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\site.js"
+    },
+    {
+      "Identity": "C:\\Users\\Indeed\\Desktop\\Repositories\\MVCMailing\\MVCMailing\\wwwroot\\js\\toggleInputs.js",
+      "SourceId": "MVCMailing",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Indeed\\Desktop\\Repositories\\MVCMailing\\MVCMailing\\wwwroot\\",
+      "BasePath": "_content/MVCMailing",
+      "RelativePath": "js/toggleInputs.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\toggleInputs.js"
     },
     {
       "Identity": "C:\\Users\\Indeed\\Desktop\\Repositories\\MVCMailing\\MVCMailing\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",

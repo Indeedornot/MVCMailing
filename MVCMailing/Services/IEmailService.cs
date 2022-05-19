@@ -5,7 +5,7 @@ namespace MVCMailing.Services;
 
 public interface IEmailService
 {
-    Task<List<EmailMessageVm>> RetrieveEmails(GoogleCredential credential);
-    Task<bool> SendEmail(GoogleCredential credential, SendModel? sendModel);
+    Task<List<EmailMessageVm>> RetrieveEmails(int maxCount = 10);
+    Task<bool> SendEmail(EmailMessageVm message);
     EmailLoginVm loginCred { get; set; }
 }

@@ -27,7 +27,7 @@ builder.Services.AddAuthentication(o =>
         options.ClientSecret = secrets.ClientSecret;
     });
 
-builder.Services.AddTransient<IEmailService, EmailService>();
+builder.Services.AddSingleton<IEmailService, EmailService>();
 
 var app = builder.Build();
 

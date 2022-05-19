@@ -6,8 +6,7 @@
 }
 
 
-
-<form method="post" asp-controller="Home" asp-action="Login">
+<form method="post" asp-controller="Home" asp-action="LoginPost">
     <div>
         <input type="text" name="Email" required/>
         <label>Email</label>
@@ -19,6 +18,10 @@
     <div>
         <input type="text" name="ImapServer" class="toggleable"/>
         <label>IMapServer</label>
+    </div>
+    <div>
+        <input type="text" name="SmtpServer" class="toggleable"/>
+        <label>SmtpServer</label>
     </div>
     <div>
         <input type="checkbox" name="Google" class="toggle" value="false" onchange="this.value=this.checked"/>

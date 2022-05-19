@@ -42,3 +42,6 @@ C:\Users\Indeed\Desktop\Repositories\MVCMailing\MVCMailing\bin\Debug\net6.0\Micr
 C:\Users\Indeed\Desktop\Repositories\MVCMailing\MVCMailing\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
 C:\Users\Indeed\Desktop\Repositories\MVCMailing\MVCMailing\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
 C:\Users\Indeed\Desktop\Repositories\MVCMailing\MVCMailing\bin\Debug\net6.0\SafeRouting.Common.dll
+C:\Users\Indeed\Desktop\Repositories\MVCMailing\MVCMailing\bin\Debug\net6.0\MailKit.dll
+C:\Users\Indeed\Desktop\Repositories\MVCMailing\MVCMailing\bin\Debug\net6.0\MimeKit.dll
+C:\Users\Indeed\Desktop\Repositories\MVCMailing\MVCMailing\bin\Debug\net6.0\BouncyCastle.Crypto.dll
