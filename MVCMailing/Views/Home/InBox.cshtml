@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "InBox";
+}
+
+@model List<EmailMessageVm>
+
+<table>
+    <tr class="text-center">
+        <th>Sender</th>
+        <th>Date</th>
+        <th>Subject</th>
+        <th>Snippet</th>
+    </tr>
+    @for (int i = 0; i < @Model.Count; i++)
+    {
+        <tr class="text-wrap">
+            <td>@Model[i].Sender</td>
+            <td>@Model[i].Date</td>
+            <td>@Model[i].Subject</td>
+            <td>@Model[i].Snippet</td>
+        </tr>
+    }
+</table>

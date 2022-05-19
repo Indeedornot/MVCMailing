@@ -1,0 +1,13 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@model List<EmailMessageVm>
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>
+        <a for-route="Routes.Controllers.Home.InBox()">InBox</a> 
+        <a for-route="Routes.Controllers.Home.Send()">Send Email</a>
+    </p>
+</div>

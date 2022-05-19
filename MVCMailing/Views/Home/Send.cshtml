@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewData["Title"] = "Send";
+}
+
+<!DOCTYPE html>
+
+<form asp-controller="Home" asp-action="SendPost" method="post">
+    <div>
+        @*TODO Verify if correct email*@
+        <input type="text" name="To" required/>
+        <label>To</label>
+    </div>
+    <div>
+        <input type="text" name="Subject" required/>
+    </div>
+    <div>
+        <input type="text" name="Body" required/>
+    </div>
+    <input type="submit"/>
+</form>
