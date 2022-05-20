@@ -44,6 +44,10 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "EmailValidation": {
+              "target": "Package",
+              "version": "[1.0.7, )"
+            },
             "Google.Apis.Auth.AspNetCore3": {
               "target": "Package",
               "version": "[1.57.0, )"

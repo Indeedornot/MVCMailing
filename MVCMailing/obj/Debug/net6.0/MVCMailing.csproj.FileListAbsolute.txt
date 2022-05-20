@@ -45,3 +45,4 @@ C:\Users\Indeed\Desktop\Repositories\MVCMailing\MVCMailing\bin\Debug\net6.0\Safe
 C:\Users\Indeed\Desktop\Repositories\MVCMailing\MVCMailing\bin\Debug\net6.0\MailKit.dll
 C:\Users\Indeed\Desktop\Repositories\MVCMailing\MVCMailing\bin\Debug\net6.0\MimeKit.dll
 C:\Users\Indeed\Desktop\Repositories\MVCMailing\MVCMailing\bin\Debug\net6.0\BouncyCastle.Crypto.dll
+C:\Users\Indeed\Desktop\Repositories\MVCMailing\MVCMailing\bin\Debug\net6.0\EmailValidation.dll

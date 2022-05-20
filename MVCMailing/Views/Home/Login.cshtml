@@ -1,10 +1,11 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Routing
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
 
+@model string
+
+@if (!string.IsNullOrEmpty(Model))
+{
+    await Html.RenderPartialAsync("ShowPopUp", Model);
+}
 
 <form method="post" asp-controller="Home" asp-action="LoginPost">
     <div>
@@ -12,23 +13,23 @@
         <label>Email</label>
     </div>
     <div>
-        <input type="text" name="Password" class="toggleable"/>
+        <input type="text" name="Password" class="toggleable" required/>
         <label>Password</label>
     </div>
     <div>
-        <input type="text" name="ImapServer" class="toggleable"/>
+        <input type="text" name="ImapServer" class="toggleable" required/>
         <label>IMapServer</label>
     </div>
     <div>
-            <input type="number" name="ImapPort" class="toggleable"/>
+            <input type="number" name="ImapPort" class="toggleable" required/>
             <label>ImapPort</label>
         </div>
     <div>
-        <input type="text" name="SmtpServer" class="toggleable"/>
+        <input type="text" name="SmtpServer" class="toggleable" required/>
         <label>SmtpServer</label>
     </div>
     <div>
-        <input type="number" name="SmtpPort" class="toggleable"/>
+        <input type="number" name="SmtpPort" class="toggleable" required/>
         <label>SmtpPort</label>
     </div>
     

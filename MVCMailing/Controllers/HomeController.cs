@@ -1,4 +1,6 @@
 ﻿using System.Diagnostics;
+using System.Security.Principal;
+using EmailValidation;
 using Google.Apis.Auth.AspNetCore3;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Gmail.v1;
@@ -37,45 +39,55 @@ public class HomeController : Controller
     }
     #endregion
     
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(string? error)
     {
-        return View();
+        return View(model: error);
     }
     
     
     public async Task<IActionResult> InBox()
     {
-        if (!_emailService.LoginCred.IsValid) return Home.Login().Redirect(this); 
+        if (!_emailService.LoginCred.IsValid) return Home.Login("You need to login first").Redirect(this); 
         var messages = await _emailService.RetrieveEmails();
-        return View(messages);
+        return View(model: messages);
     }
     
     [HttpGet]
-    public IActionResult Login()
+    public IActionResult Login(string error)
     {
-        return View();
+        return View(model: error);
     }
 
     [HttpPost]
     public IActionResult LoginPost(EmailLoginVm emailLoginVm)
     {
+        if (!emailLoginVm.IsValid) return Home.Index("Invalid Login Data").Redirect(this);
         _emailService.LoginCred = emailLoginVm;
-        return Home.Index().Redirect(this);
+        return Home.Index(null).Redirect(this);
     }
 
     [HttpGet]
     public IActionResult Send()
     {
-        if (!_emailService.LoginCred.IsValid) return Home.Login().Redirect(this);
+        if (!_emailService.LoginCred.IsValid) return Home.Login("You need to login first").Redirect(this);
         return View();
     }
 
     [HttpPost]
     public IActionResult SendPost(EmailMessageVm message)
     {
-        if (!_emailService.LoginCred.IsValid) return Home.Login().Redirect(this);
-        if (!message.IsValidSend) return Home.Send().Redirect(this);
+        if (!_emailService.LoginCred.IsValid) return Home.Login("You need to login first").Redirect(this);
+        if (!message.IsValidSend) return Home.Index("Invalid Send Message Data").Redirect(this);
         _emailService.SendEmail(message);
-        return Home.Index().Redirect(this);
+        return Home.Index(null).Redirect(this);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Delete(uint messageUID)
+    {
+        if (!_emailService.LoginCred.IsValid) return Home.Login("You need to login first").Redirect(this);
+        var deleteSuccess = await _emailService.DeleteEmail(messageUID);
+        string? error = deleteSuccess ? null : "Encountered an error while deleting messages";
+        return Home.Index(error).Redirect(this);
     }
 }

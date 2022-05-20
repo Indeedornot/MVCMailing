@@ -1,4 +1,6 @@
-﻿namespace MVCMailing.Models;
+﻿using EmailValidation;
+
+namespace MVCMailing.Models;
 
 public class EmailLoginVm
 {
@@ -12,6 +14,6 @@ public class EmailLoginVm
 
     public bool Google { get; set;  } = false;
 
-    public bool IsValid => !string.IsNullOrEmpty(Email) 
+    public bool IsValid => !string.IsNullOrEmpty(Email) && EmailValidator.Validate(Email, false, true)
                            && (Google || (!string.IsNullOrEmpty(Password) && !string.IsNullOrEmpty(ImapServer)));
 }
