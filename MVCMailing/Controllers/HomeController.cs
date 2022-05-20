@@ -17,6 +17,7 @@ public class HomeController : Controller
     private readonly IGoogleAuthProvider _auth;
     private readonly IEmailService _emailService;
 
+    //TODO ADD HANDLER FOR ERRORS
     public HomeController(IGoogleAuthProvider auth, IEmailService emailService)
     {
         _auth = auth;
@@ -44,7 +45,7 @@ public class HomeController : Controller
     
     public async Task<IActionResult> InBox()
     {
-        if (!_emailService.loginCred.IsValid) return Home.Login().Redirect(this); 
+        if (!_emailService.LoginCred.IsValid) return Home.Login().Redirect(this); 
         var messages = await _emailService.RetrieveEmails();
         return View(messages);
     }
@@ -58,21 +59,21 @@ public class HomeController : Controller
     [HttpPost]
     public IActionResult LoginPost(EmailLoginVm emailLoginVm)
     {
-        _emailService.loginCred = emailLoginVm;
+        _emailService.LoginCred = emailLoginVm;
         return Home.Index().Redirect(this);
     }
 
     [HttpGet]
     public IActionResult Send()
     {
-        if (!_emailService.loginCred.IsValid) return Home.Login().Redirect(this);
+        if (!_emailService.LoginCred.IsValid) return Home.Login().Redirect(this);
         return View();
     }
 
     [HttpPost]
     public IActionResult SendPost(EmailMessageVm message)
     {
-        if (!_emailService.loginCred.IsValid) return Home.Login().Redirect(this);
+        if (!_emailService.LoginCred.IsValid) return Home.Login().Redirect(this);
         if (!message.IsValidSend) return Home.Send().Redirect(this);
         _emailService.SendEmail(message);
         return Home.Index().Redirect(this);

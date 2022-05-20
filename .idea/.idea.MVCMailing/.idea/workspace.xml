@@ -6,40 +6,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5f56298f-b317-43a7-b838-902df12f6771" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/MVCMailing/wwwroot/js/toggleInputs.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.MVCMailing/.idea/discord.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MVCMailing/.idea/discord.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.MVCMailing/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MVCMailing/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.MVCMailing/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MVCMailing/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MVCMailing/Controllers/HomeController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MVCMailing/Controllers/HomeController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MVCMailing/MVCMailing.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/MVCMailing/MVCMailing.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MVCMailing/Models/EmailLoginVm.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MVCMailing/Models/EmailLoginVm.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MVCMailing/Models/EmailMessageVM.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MVCMailing/Models/EmailMessageVM.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MVCMailing/Models/ErrorViewModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MVCMailing/Models/ErrorViewModel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MVCMailing/Models/SendModel.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MVCMailing/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MVCMailing/Program.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MVCMailing/Services/EmailService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MVCMailing/Services/EmailService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MVCMailing/Services/IEmailService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MVCMailing/Services/IEmailService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MVCMailing/Views/Home/InBox.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/MVCMailing/Views/Home/InBox.cshtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MVCMailing/Views/Home/Login.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/MVCMailing/Views/Home/Login.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MVCMailing/bin/Debug/net6.0/MVCMailing.deps.json" beforeDir="false" afterPath="$PROJECT_DIR$/MVCMailing/bin/Debug/net6.0/MVCMailing.deps.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MVCMailing/bin/Debug/net6.0/MVCMailing.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MVCMailing/bin/Debug/net6.0/MVCMailing.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MVCMailing/bin/Debug/net6.0/MVCMailing.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/MVCMailing/bin/Debug/net6.0/MVCMailing.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MVCMailing/bin/Debug/net6.0/MVCMailing.staticwebassets.runtime.json" beforeDir="false" afterPath="$PROJECT_DIR$/MVCMailing/bin/Debug/net6.0/MVCMailing.staticwebassets.runtime.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MVCMailing/obj/Debug/net6.0/MVCMailing.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/MVCMailing/obj/Debug/net6.0/MVCMailing.assets.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MVCMailing/obj/Debug/net6.0/MVCMailing.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/MVCMailing/obj/Debug/net6.0/MVCMailing.csproj.AssemblyReference.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MVCMailing/obj/Debug/net6.0/MVCMailing.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/MVCMailing/obj/Debug/net6.0/MVCMailing.csproj.CoreCompileInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MVCMailing/obj/Debug/net6.0/MVCMailing.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/MVCMailing/obj/Debug/net6.0/MVCMailing.csproj.FileListAbsolute.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MVCMailing/obj/Debug/net6.0/MVCMailing.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MVCMailing/obj/Debug/net6.0/MVCMailing.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MVCMailing/obj/Debug/net6.0/MVCMailing.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/MVCMailing/obj/Debug/net6.0/MVCMailing.pdb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MVCMailing/obj/Debug/net6.0/ref/MVCMailing.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MVCMailing/obj/Debug/net6.0/ref/MVCMailing.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MVCMailing/obj/Debug/net6.0/refint/MVCMailing.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MVCMailing/obj/Debug/net6.0/refint/MVCMailing.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MVCMailing/obj/Debug/net6.0/staticwebassets.build.json" beforeDir="false" afterPath="$PROJECT_DIR$/MVCMailing/obj/Debug/net6.0/staticwebassets.build.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MVCMailing/obj/Debug/net6.0/staticwebassets.development.json" beforeDir="false" afterPath="$PROJECT_DIR$/MVCMailing/obj/Debug/net6.0/staticwebassets.development.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MVCMailing/obj/MVCMailing.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/MVCMailing/obj/MVCMailing.csproj.nuget.dgspec.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MVCMailing/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/MVCMailing/obj/project.assets.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MVCMailing/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/MVCMailing/obj/project.nuget.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MVCMailing/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/MVCMailing/obj/project.packagespec.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MVCMailing/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/MVCMailing/obj/rider.project.restore.info" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MVCMailing/obj/staticwebassets.pack.sentinel" beforeDir="false" afterPath="$PROJECT_DIR$/MVCMailing/obj/staticwebassets.pack.sentinel" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -122,7 +102,9 @@
       <workItem from="1652895657481" duration="3375000" />
       <workItem from="1652900002027" duration="3579000" />
       <workItem from="1652968725420" duration="8282000" />
-      <workItem from="1652984362233" duration="3906000" />
+      <workItem from="1652984362233" duration="4372000" />
+      <workItem from="1653025521594" duration="2069000" />
+      <workItem from="1653027641849" duration="217000" />
     </task>
     <task id="LOCAL-00001" summary="Created an app that lets a user send emails from gmail service&#10;In process of porting it to include gmail and other platforms">
       <created>1652976752510</created>
@@ -164,16 +146,29 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/MVCMailing/Services/EmailService.cs</url>
-          <line>139</line>
+          <line>141</line>
           <properties documentPath="C:\Users\Indeed\Desktop\Repositories\MVCMailing\MVCMailing\Services\EmailService.cs" initialLine="135" containingFunctionPresentation="method 'SendEmail'">
             <startOffsets>
-              <option value="4912" />
+              <option value="4971" />
             </startOffsets>
             <endOffsets>
-              <option value="4966" />
+              <option value="5025" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/MVCMailing/Services/EmailService.cs</url>
+          <line>137</line>
+          <properties documentPath="C:\Users\Indeed\Desktop\Repositories\MVCMailing\MVCMailing\Services\EmailService.cs" initialLine="136" containingFunctionPresentation="method 'SendEmail'">
+            <startOffsets>
+              <option value="4766" />
+            </startOffsets>
+            <endOffsets>
+              <option value="4865" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

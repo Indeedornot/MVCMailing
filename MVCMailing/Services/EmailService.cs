@@ -32,7 +32,7 @@ namespace MVCMailing.Services;
 public class EmailService : IEmailService
 {
     private readonly IGoogleAuthProvider _auth;
-    public EmailLoginVm loginCred { get; set; } = new();
+    public EmailLoginVm LoginCred { get; set; } = new();
 
     public EmailService(IGoogleAuthProvider auth)
     {
@@ -66,16 +66,16 @@ public class EmailService : IEmailService
     {
         using var emailClient = new ImapClient();
 
-        if (loginCred.Google)
+        if (LoginCred.Google)
         {
-            var oauth2 = new SaslMechanismOAuth2(loginCred.Email, await GetGmailToken());
+            var oauth2 = new SaslMechanismOAuth2(LoginCred.Email, await GetGmailToken());
             await emailClient.ConnectAsync("imap.gmail.com", 993, SecureSocketOptions.SslOnConnect);
             await emailClient.AuthenticateAsync(oauth2);
         }
         else //TODO ADD GET SERVER FROM EMAIL
         {
-            await emailClient.ConnectAsync(loginCred.ImapServer, 993, SecureSocketOptions.SslOnConnect);
-            await emailClient.AuthenticateAsync(loginCred.Email, loginCred.Password);
+            await emailClient.ConnectAsync(LoginCred.ImapServer, LoginCred.ImapPort, SecureSocketOptions.SslOnConnect);
+            await emailClient.AuthenticateAsync(LoginCred.Email, LoginCred.Password);
         }
 
         await emailClient.Inbox.OpenAsync(FolderAccess.ReadOnly);
@@ -112,29 +112,31 @@ public class EmailService : IEmailService
 
     public async Task<bool> SendEmail(EmailMessageVm message)
     {
-        var nameTo = message.To.Split("@")[0];
-        var nameFrom = message.To.Split("@")[0];
+        string nameTo = message.To.Split("@")[0];
+        string nameFrom = LoginCred.Email.Split("@")[0];
+        
         var email = new MimeMessage
         {
             Subject = message.Subject,
             Body = new TextPart("plain"){ Text = message.Body },
-            Sender = new MailboxAddress(nameFrom, loginCred.Email)
+            
         };
+        email.From.Add(new MailboxAddress(nameFrom, LoginCred.Email));
         email.To.Add(new MailboxAddress(nameTo, message.To));
         
         // send email
         using var emailClient = new SmtpClient();
 
-        if (loginCred.Google)
+        if (LoginCred.Google)
         {
-            var oauth2 = new SaslMechanismOAuth2(loginCred.Email, await GetGmailToken());
+            var oauth2 = new SaslMechanismOAuth2(LoginCred.Email, await GetGmailToken());
             await emailClient.ConnectAsync ("smtp.gmail.com", 465, SecureSocketOptions.SslOnConnect);
             await emailClient.AuthenticateAsync(oauth2);
         }
         else //TODO ADD GET SERVER FROM EMAIL AND CORRECT PORT
         {
-            await emailClient.ConnectAsync(loginCred.ImapServer, 465, SecureSocketOptions.SslOnConnect);
-            await emailClient.AuthenticateAsync(loginCred.Email, loginCred.Password);
+            await emailClient.ConnectAsync(LoginCred.SmtpServer, LoginCred.SmtpPort, SecureSocketOptions.Auto);
+            await emailClient.AuthenticateAsync(LoginCred.Email, LoginCred.Password);
         }
 
         string? response = await emailClient.SendAsync(email);
