@@ -7,6 +7,7 @@ using Google.Apis.Gmail.v1;
 using Google.Apis.Gmail.v1.Data;
 using Google.Apis.Services;
 using MailKit;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MVCMailing.Models;
 using MVCMailing.Services;
@@ -16,13 +17,10 @@ namespace MVCMailing.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly IGoogleAuthProvider _auth;
     private readonly IEmailService _emailService;
-
-    //TODO ADD HANDLER FOR ERRORS
-    public HomeController(IGoogleAuthProvider auth, IEmailService emailService)
+    
+    public HomeController(IEmailService emailService)
     {
-        _auth = auth;
         _emailService = emailService;
     }
     
@@ -39,7 +37,7 @@ public class HomeController : Controller
     }
     #endregion
     
-    public async Task<IActionResult> Index(string? error)
+    public IActionResult Index(string? error)
     {
         return View(model: error);
     }
@@ -62,7 +60,17 @@ public class HomeController : Controller
     public IActionResult LoginPost(EmailLoginVm emailLoginVm)
     {
         if (!emailLoginVm.IsValid) return Home.Index("Invalid Login Data").Redirect(this);
+        
         _emailService.LoginCred = emailLoginVm;
+
+        if (emailLoginVm.Google) return RedirectToAction("LoginGoogle", "Home");
+        return Home.Index(null).Redirect(this);
+    }
+
+    [HttpGet]
+    [GoogleScopedAuthorize(GmailService.ScopeConstants.MailGoogleCom)]
+    public IActionResult LoginGoogle()
+    {
         return Home.Index(null).Redirect(this);
     }
 
@@ -83,10 +91,10 @@ public class HomeController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Delete(uint messageUID)
+    public async Task<IActionResult> Delete(uint messageUid)
     {
         if (!_emailService.LoginCred.IsValid) return Home.Login("You need to login first").Redirect(this);
-        var deleteSuccess = await _emailService.DeleteEmail(messageUID);
+        var deleteSuccess = await _emailService.DeleteEmail(messageUid);
         string? error = deleteSuccess ? null : "Encountered an error while deleting messages";
         return Home.Index(error).Redirect(this);
     }

@@ -46,3 +46,4 @@ C:\Users\Indeed\Desktop\Repositories\MVCMailing\MVCMailing\bin\Debug\net6.0\Mail
 C:\Users\Indeed\Desktop\Repositories\MVCMailing\MVCMailing\bin\Debug\net6.0\MimeKit.dll
 C:\Users\Indeed\Desktop\Repositories\MVCMailing\MVCMailing\bin\Debug\net6.0\BouncyCastle.Crypto.dll
 C:\Users\Indeed\Desktop\Repositories\MVCMailing\MVCMailing\bin\Debug\net6.0\EmailValidation.dll
+C:\Users\Indeed\Desktop\Repositories\MVCMailing\MVCMailing\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.Google.dll

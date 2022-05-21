@@ -8,6 +8,6 @@ public interface IEmailService
 {
     Task<List<EmailMessageVm>> RetrieveEmails(int maxCount = 10);
     Task<bool> SendEmail(EmailMessageVm message);
-    Task<bool> DeleteEmail(uint messageUID);
+    Task<bool> DeleteEmail(uint messageUid);
     EmailLoginVm LoginCred { get; set; }
 }

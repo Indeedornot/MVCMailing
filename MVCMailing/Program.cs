@@ -19,13 +19,17 @@ builder.Services.AddAuthentication(o =>
         // Once a user is authenticated, the OAuth2 token info is stored in cookies.
         o.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
     })
-    .AddCookie()
+    .AddCookie(options =>
+    {
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+    })
     .AddGoogleOpenIdConnect(options =>
     {
         var secrets = GoogleClientSecrets.FromFile("client_secret.json").Secrets;
         options.ClientId = secrets.ClientId;
         options.ClientSecret = secrets.ClientSecret;
     });
+//"C:\Users\Indeed\AppData\Roaming\CredentialCacheFolder\Google.Apis.Auth.OAuth2.Responses.TokenResponse-gravitybartek@gmail.com"
 
 builder.Services.AddSingleton<IEmailService, EmailService>();
 

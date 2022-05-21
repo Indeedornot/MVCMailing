@@ -40,29 +40,6 @@ public class EmailService : IEmailService
         _auth = auth;
     }
 
-    // public async Task<List<EmailMessageVm>> RetrieveEmails(GoogleCredential credential)
-    // {
-    //     // Create Gmail API service.
-    //     var service = new GmailService(new BaseClientService.Initializer
-    //     {
-    //         HttpClientInitializer = credential,
-    //     });
-    //
-    //     var idsRequest = service.Users.Messages.List("me");
-    //     var idList = (await idsRequest.ExecuteAsync()).Messages;
-    //
-    //     List<EmailMessageVm> messages = new();
-    //     for (int i = idList.Count - 1; i >= 0; i--)
-    //     {
-    //         var messageRequest = service.Users.Messages.Get("me", idList[i].Id);
-    //         var message = (await messageRequest.ExecuteAsync());
-    //         messages.Add(new EmailMessageVm(message));
-    //     }
-    //
-    //     return messages;
-    // }
-
-
     public async Task<List<EmailMessageVm>> RetrieveEmails(int maxCount = 10)
     {
         using var emailClient = new ImapClient();
@@ -73,7 +50,7 @@ public class EmailService : IEmailService
             await emailClient.ConnectAsync("imap.gmail.com", 993, SecureSocketOptions.SslOnConnect);
             await emailClient.AuthenticateAsync(oauth2);
         }
-        else //TODO ADD GET SERVER FROM EMAIL
+        else
         {
             await emailClient.ConnectAsync(LoginCred.ImapServer, LoginCred.ImapPort, SecureSocketOptions.SslOnConnect);
             await emailClient.AuthenticateAsync(LoginCred.Email, LoginCred.Password);
@@ -85,19 +62,19 @@ public class EmailService : IEmailService
 
 
         List<EmailMessageVm> emails = new();
+
         for (int i = itemCollection.Count - 1; i >= itemCollection.Count - 1 - maxCount; i--)
         {
             var message = await emailClient.Inbox.GetMessageAsync(i);
-            var emailMessage =
-                new EmailMessageVm
-                {
-                    Body = !string.IsNullOrEmpty(message.TextBody) ? string.Empty : message.TextBody,
-                    Subject = message.Subject,
-                    SenderName = message.From.Aggregate(string.Empty, (current, sender) => current + sender.Name),
-                    SenderEmail = string.Join("\n", message.From),
-                    Date = message.Date.ToString(),
-                    MessageUid = itemCollection[i].UniqueId.Id
-                };
+            var emailMessage = new EmailMessageVm
+            {
+                Body = string.IsNullOrEmpty(message.TextBody) ? string.Empty : message.TextBody,
+                Subject = message.Subject,
+                SenderName = message.From.Aggregate(string.Empty, (current, sender) => current + sender.Name),
+                SenderEmail = string.Join("\n", message.From),
+                Date = message.Date.ToString(),
+                MessageUid = itemCollection[i].UniqueId.Id
+            };
             emails.Add(emailMessage);
         }
 
@@ -128,18 +105,18 @@ public class EmailService : IEmailService
             await emailClient.ConnectAsync ("smtp.gmail.com", 465, SecureSocketOptions.SslOnConnect);
             await emailClient.AuthenticateAsync(oauth2);
         }
-        else //TODO ADD GET SERVER FROM EMAIL AND CORRECT PORT
+        else
         {
-            await emailClient.ConnectAsync(LoginCred.SmtpServer, LoginCred.SmtpPort, SecureSocketOptions.Auto);
+            await emailClient.ConnectAsync(LoginCred.SmtpServer, LoginCred.SmtpPort);
             await emailClient.AuthenticateAsync(LoginCred.Email, LoginCred.Password);
         }
 
-        string? response = await emailClient.SendAsync(email);
+        _ = await emailClient.SendAsync(email);
         await emailClient.DisconnectAsync(true);
         return true;
     }
 
-    public async Task<bool> DeleteEmail(uint messageUID)
+    public async Task<bool> DeleteEmail(uint messageUid)
     {
         using var emailClient = new ImapClient();
 
@@ -149,7 +126,7 @@ public class EmailService : IEmailService
             await emailClient.ConnectAsync("imap.gmail.com", 993, SecureSocketOptions.SslOnConnect);
             await emailClient.AuthenticateAsync(oauth2);
         }
-        else //TODO ADD GET SERVER FROM EMAIL
+        else
         {
             await emailClient.ConnectAsync(LoginCred.ImapServer, LoginCred.ImapPort, SecureSocketOptions.SslOnConnect);
             await emailClient.AuthenticateAsync(LoginCred.Email, LoginCred.Password);
@@ -158,9 +135,9 @@ public class EmailService : IEmailService
         await emailClient.Inbox.OpenAsync(FolderAccess.ReadWrite);
         try
         {
-            var uid = new UniqueId(messageUID);
+            var uid = new UniqueId(messageUid);
             await emailClient.Inbox.AddFlagsAsync(uid, MessageFlags.Deleted, true);
-            await emailClient.Inbox.ExpungeAsync (new[]{uid});
+            await emailClient.Inbox.ExpungeAsync(new[]{uid});
         }
         catch
         {
@@ -170,7 +147,6 @@ public class EmailService : IEmailService
         return true;
     }
     
-    [GoogleScopedAuthorize(GmailService.ScopeConstants.MailGoogleCom)]
     private async Task<string> GetGmailToken()
     {
         var googleCred = await _auth.GetCredentialAsync();
